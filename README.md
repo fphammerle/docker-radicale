@@ -1,4 +1,4 @@
-# Radicale 🐳
+# Radicale ☎️ 📅 📱 ☁️ 🐳
 
 CalDAV (calendars, todo-lists) and CardDAV (contacts) server
 
