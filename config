@@ -7,5 +7,4 @@ htpasswd_encryption = bcrypt
 type = authenticated
 
 [logging]
-# debug = true
-debug = false
+debug = true

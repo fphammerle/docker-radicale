@@ -23,4 +23,4 @@ EXPOSE 5232/tcp
 CMD radicale --server-hosts=0.0.0.0:5232 \
     --config="$CONFIG_PATH" \
     --storage-filesystem-folder="$COLLECTIONS_PATH" \
-    --debug --logging-mask-passwords
+    --logging-mask-passwords
