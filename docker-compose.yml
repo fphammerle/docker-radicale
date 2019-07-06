@@ -1,0 +1,17 @@
+version: '2'
+
+volumes:
+  config:
+  collections:
+
+services:
+  radicale:
+    build: .
+    image: fphammerle/radicale
+    volumes:
+    - config:/etc/radicale:ro
+    - collections:/var/lib/radicale/collections:rw
+    ports: ['0.0.0.0:5232:5232']
+    restart: unless-stopped
+
+# https://docs.docker.com/compose/compose-file/compose-file-v2/
