@@ -1,0 +1,42 @@
+- hosts: localhost
+  become: true
+  vars:
+    project_name: radicale
+  tasks:
+  - name: create config volume
+    docker_volume:
+      volume_name: '{{ project_name }}_config'
+    register: config_volume
+  - name: create config
+    copy:
+      content: |
+        [auth]
+        type = htpasswd
+        htpasswd_filename = /etc/radicale/htpasswd
+        htpasswd_encryption = bcrypt
+
+        [rights]
+        type = authenticated
+
+        [logging]
+        debug = true
+      dest: '{{ config_volume.ansible_facts.docker_volume.Mountpoint }}/config'
+      mode: a=r
+  - docker_service: # docker_compose
+      project_name: '{{ project_name }}'
+      definition:
+        version: '2.1'
+        volumes:
+          config:
+            name: '{{ config_volume.ansible_facts.docker_volume.Name }}'
+            external: yes
+          collections:
+        services:
+          radicale:
+            image: fphammerle/radicale
+            volumes:
+            - config:/etc/radicale:ro
+            - collections:/var/lib/radicale/collections:rw
+            ports:
+            - '0.0.0.0:5232:5232'
+            restart: on-failure
