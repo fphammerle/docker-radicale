@@ -2,6 +2,7 @@ version: '2'
 
 volumes:
   config:
+  ssh_keypair:
   collections:
 
 services:
@@ -10,6 +11,7 @@ services:
     image: fphammerle/radicale
     volumes:
     - config:/etc/radicale:ro
+    - ssh_keypair:/var/lib/radicale/.ssh:rw
     - collections:/var/lib/radicale/collections:rw
     ports: ['0.0.0.0:5232:5232']
     restart: unless-stopped
