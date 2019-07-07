@@ -30,12 +30,14 @@
           config:
             name: '{{ config_volume.ansible_facts.docker_volume.Name }}'
             external: yes
+          ssh_keypair:
           collections:
         services:
           radicale:
             image: fphammerle/radicale
             volumes:
             - config:/etc/radicale:ro
+            - ssh_keypair:/var/lib/radicale/.ssh:rw
             - collections:/var/lib/radicale/collections:rw
             ports:
             - '0.0.0.0:5232:5232'
