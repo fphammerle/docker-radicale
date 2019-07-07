@@ -1,7 +1,7 @@
 FROM alpine:3.10
 
 # storage hooks
-RUN apk add --no-cache git
+RUN apk add --no-cache git openssh-client
 
 # py3-passlib & py3-bcrypt required for htpasswd_encryption=bcrypt
 # https://github.com/pyca/bcrypt/
@@ -17,10 +17,11 @@ RUN mkdir "$COLLECTIONS_PATH" && chown radicale "$COLLECTIONS_PATH"
 VOLUME $COLLECTIONS_PATH
 
 ENV CONFIG_PATH=/etc/radicale/config
+COPY radicale.sh /
+RUN chmod a+rx /radicale.sh \
+    && mkdir ~radicale/.ssh \
+    && chown radicale ~radicale/.ssh
 
 USER radicale
 EXPOSE 5232/tcp
-CMD radicale --server-hosts=0.0.0.0:5232 \
-    --config="$CONFIG_PATH" \
-    --storage-filesystem-folder="$COLLECTIONS_PATH" \
-    --logging-mask-passwords
+CMD ["/radicale.sh"]
