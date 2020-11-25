@@ -17,6 +17,9 @@ https://radicale.org/
 
    [rights]
    type = authenticated
+
+   [logging]
+   level = info
    ```
 
 2. Store credentials
@@ -43,6 +46,10 @@ https://radicale.org/
        -p 5232:5232 \
        fphammerle/radicale
    ```
+
+Image contains `git` and `openssh-client` for use in storage hooks.
+
+Version `2.*` to `3.*` migration guide: https://github.com/Kozea/Radicale/blob/3.0.6/NEWS.md#upgrade-checklist
 
 ## Docker Compose 🐙
 

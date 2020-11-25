@@ -2,6 +2,7 @@
 
 set -ex
 
+# for storage hooks
 if [ ! -f ~/.ssh/id_rsa ]; then
     ssh-keygen -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
     cat ~/.ssh/id_rsa.pub
