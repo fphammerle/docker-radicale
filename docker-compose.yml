@@ -1,4 +1,4 @@
-version: '2'
+version: '2.2'
 
 volumes:
   config:
@@ -13,7 +13,13 @@ services:
     - config:/etc/radicale:ro
     - ssh_keypair:/var/lib/radicale/.ssh:rw
     - collections:/var/lib/radicale/collections:rw
+    read_only: true
     ports: ['0.0.0.0:5232:5232']
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges]
+    mem_limit: 128M
+    cpu_quota: 5000
+    cpu_period: 10000
     restart: unless-stopped
 
 # https://docs.docker.com/compose/compose-file/compose-file-v2/
