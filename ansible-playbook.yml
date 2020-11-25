@@ -3,11 +3,19 @@
   vars:
     project_name: radicale
   tasks:
-  - name: create config volume
+  - name: radicale config volume
     docker_volume:
       volume_name: '{{ project_name }}_config'
     register: config_volume
-  - name: create config
+  - name: raddicale passwd file
+    copy:
+      # htpasswd -n -B someone
+      content: |
+        alice:$2y$05$26YVRC4Hr/lw13TVT..BpuWVt.e29sG4JbtmFI5DTvr6dFUMqGvdK
+        bob:$2y$05$.PGGSZOJZSDiUJ2BYKJ2w.2KKFEcSoEA0gwZ45LNanKpK6.rV6hn.
+      dest: '{{ config_volume.ansible_facts.docker_volume.Mountpoint }}/htpasswd'
+      mode: a=r
+  - name: radicale config file
     copy:
       content: |
         [auth]
@@ -19,26 +27,26 @@
         type = authenticated
 
         [logging]
-        debug = true
+        level = info
       dest: '{{ config_volume.ansible_facts.docker_volume.Mountpoint }}/config'
       mode: a=r
-  - docker_service: # docker_compose
-      project_name: '{{ project_name }}'
-      definition:
-        version: '2.1'
-        volumes:
-          config:
-            name: '{{ config_volume.ansible_facts.docker_volume.Name }}'
-            external: yes
-          ssh_keypair:
-          collections:
-        services:
-          radicale:
-            image: fphammerle/radicale
-            volumes:
-            - config:/etc/radicale:ro
-            - ssh_keypair:/var/lib/radicale/.ssh:rw
-            - collections:/var/lib/radicale/collections:rw
-            ports:
-            - '0.0.0.0:5232:5232'
-            restart: on-failure
+    register: config_file
+  - name: radicale container
+    docker_container:
+      name: radicale
+      # object 6f2b8b382e64b6e443af12773a4a21ff273d1cd4
+      # tag docker/0.2.1-radicale3.0.6r0-amd64
+      image: docker.io/fphammerle/radicale@sha256:80214c678ae182838bc0af3f07ae0ff7c2855afb39b61911ff4c21f1199605e4
+      volumes:
+      - '{{ config_volume.ansible_facts.docker_volume.Name }}:/etc/radicale:ro'
+      - radicale_ssh_client_config:/var/lib/radicale/.ssh:rw
+      - radicale_collections:/var/lib/radicale/collections:rw
+      read_only: true
+      published_ports: ["0.0.0.0:5232:5232"]
+      cap_drop: [ALL]
+      security_opts: [no-new-privileges]
+      memory: 128M
+      cpu_quota: 5000
+      cpu_period: 10000
+      restart_policy: unless-stopped
+      restart: '{{ config_file.changed }}'
