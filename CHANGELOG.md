@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - merged some `RUN` layers
 
 ## [0.2.0] - 2019-07-07
+### Added
 - added openssh client
 - create ssh keypair on container startup
   (to be able to git pull/push in storage hook)
