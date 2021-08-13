@@ -1,4 +1,4 @@
-FROM alpine:3.14.0
+FROM alpine:3.14.1
 
 # git & openssh-client for storage hooks
 # py3-passlib & py3-bcrypt required for htpasswd_encryption=bcrypt
