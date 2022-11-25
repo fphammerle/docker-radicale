@@ -1,11 +1,11 @@
-FROM alpine:3.16.3
+FROM alpine:3.17.0
 
 # git & openssh-client for storage hooks
 # py3-passlib & py3-bcrypt required for htpasswd_encryption=bcrypt
 # https://github.com/pyca/bcrypt/
 # > from bcrypt import _bcrypt
 # > ModuleNotFoundError: No module named '_cffi_backend'
-ARG RADICALE_PACKAGE_VERSION=3.1.7-r0
+ARG RADICALE_PACKAGE_VERSION=3.1.8-r0
 RUN apk add --no-cache \
         git \
         openssh-client \
