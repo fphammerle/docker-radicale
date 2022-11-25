@@ -5,7 +5,7 @@ FROM alpine:3.17.0
 # https://github.com/pyca/bcrypt/
 # > from bcrypt import _bcrypt
 # > ModuleNotFoundError: No module named '_cffi_backend'
-ARG RADICALE_PACKAGE_VERSION=3.1.7-r0
+ARG RADICALE_PACKAGE_VERSION=3.1.8-r0
 RUN apk add --no-cache \
         git \
         openssh-client \
