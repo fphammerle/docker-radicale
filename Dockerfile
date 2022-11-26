@@ -14,6 +14,8 @@ RUN apk add --no-cache \
         py3-passlib \
         radicale=$RADICALE_PACKAGE_VERSION
 
+COPY ssh_config /etc/ssh/ssh_config
+
 ENV CONFIG_PATH=/etc/radicale/config
 ENV COLLECTIONS_PATH=/var/lib/radicale/collections
 COPY radicale.sh /

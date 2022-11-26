@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
+- `ssh`: no longer accept RSA keys < 2048 bits for client & server (host) authentication
 - `docker-compose` & sample `ansible` playbook:
    - read-only container root filesystem
    - drop capabilities
