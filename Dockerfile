@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.20.0
+FROM docker.io/alpine:3.20.1
 
 # git & openssh-client for storage hooks
 # py3-passlib & py3-bcrypt required for htpasswd_encryption=bcrypt
