@@ -1,19 +1,19 @@
-FROM docker.io/alpine:3.23.3
+FROM docker.io/alpine:3.24.0
 
 # git & openssh-client for storage hooks
-# py3-passlib & py3-bcrypt required for htpasswd_encryption=bcrypt
+# py3-bcrypt & probably py3-libpass required for htpasswd_encryption=bcrypt
 # https://github.com/pyca/bcrypt/
 # > from bcrypt import _bcrypt
 # > ModuleNotFoundError: No module named '_cffi_backend'
 # https://github.com/Kozea/Radicale/blob/master/CHANGELOG.md
-# https://git.alpinelinux.org/aports/log/community/radicale?h=3.23-stable
-ARG RADICALE_PACKAGE_VERSION=3.5.9-r0
+# https://git.alpinelinux.org/aports/log/community/radicale?h=3.24-stable
+ARG RADICALE_PACKAGE_VERSION=3.7.4-r0
 RUN apk add --no-cache \
         git \
         openssh-client \
         py3-bcrypt \
         py3-cffi \
-        py3-passlib \
+        py3-libpass \
         radicale=$RADICALE_PACKAGE_VERSION
 
 COPY ssh_config /etc/ssh/ssh_config
